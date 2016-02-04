@@ -2,27 +2,38 @@
 <html>
 
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+    <meta name="description" content="">
+    <meta name="author" content="">
+    
     <title>Forms</title>
     <script src="bower_components/angular/angular.js"></script>
     <link href="bower_components/bootstrap/dist/css/bootstrap.css" rel="stylesheet" />
     <link href="bower_components/bootstrap/dist/css/bootstrap-theme.css" rel="stylesheet" />
     <link href="css/main.css" rel="stylesheet" />
+     <link href="css/signin.css" rel="stylesheet" />
   
 </head>
 <body>
     <div id="main">
     <div id="box" class="container">
     <form id="LoginForm" class="form-signin" method="post" action="">
-        <h2 class="form-signin-heading">MyCheckUP øπæ‡Ω√Ω∫≈€ ªÁø‰¿⁄ µÓ∑œ</h2>
-        <label for="loginID" class="sr-only">∑Œ±◊¿Œ ID</label>
-        <input type="text" name="loginID" id="loginID" class="form-control" placeholder="æ∆¿Ãµ∏¶ ¿‘∑¬«œººø‰" required autofocus>
+        <h2 class="form-signin-heading">ÏÇ¨Ïö©Ïûê Îì±Î°ù</h2>
+        <label for="loginID" class="sr-only">Î°úÍ∑∏Ïù∏ ID</label>
+        <input type="text" name="loginID" id="loginID" class="form-control" placeholder="ÏïÑÏù¥ÎîîÎ•º ÏûÖÎ†•ÌïòÏÑ∏Ïöî" required autofocus>
         <label for="inputPassword" class="sr-only">Password</label>
         <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required>
-        
-         <button class="btn btn-lg btn-primary btn-block" type="submit" id="login">µÓ∑œ</button>
-         <button class="btn btn-lg btn-default btn-block" type="reset" id="reset">√Îº“</button>
+       
+        <div style="text-align:center">
+        <button type="button" class="btn  btn-primary"  id="login">Îì±Î°ù</button>
+        <button type="button" class="btn  btn-default"   id="reset">Ï∑®ÏÜå</button>
+       </div>
+     
         <div class="panel panel-default" id="error">
-         </div>  
+        </div>  
       </form>
      
     </div> <!-- /container -->
