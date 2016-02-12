@@ -13,12 +13,15 @@
 
 <%
 Class.forName("com.mysql.jdbc.Driver");
-out.print("JDBC driver loading finished");
+
+//Class.forName("oracle.jdbc.driver.OracleDriver");
+
+out.print("JDBC driver loading finished<br>");
 String url = "jdbc:mysql://www.youscan.co.kr:3306/konavi";
 String user="konavi";
 String password="konavi";
 Connection conn = DriverManager.getConnection(url, user, password);
-out.print("연결 URL정의 및 DB와 연결이 정상적으로 연결 되었습니다.");
+out.print("연결 URL정의 및 DB와 연결이 정상적으로 연결 되었습니다.<br>");
 
 Statement stmt =conn.createStatement();
 
@@ -41,7 +44,7 @@ sql="select * from NovelJSP";
 
 ResultSet rs=stmt.executeQuery(sql);
 
-out.print("데이터 쿼리 완료");
+out.print("데이터 쿼리 완료<br>");
 
 while(rs.next()){
 	
