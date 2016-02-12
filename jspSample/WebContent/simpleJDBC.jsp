@@ -14,7 +14,57 @@
 <%
 Class.forName("com.mysql.jdbc.Driver");
 out.print("JDBC driver loading finished");
-//String url = "j"
+String url = "jdbc:mysql://www.youscan.co.kr:3306/konavi";
+String user="konavi";
+String password="konavi";
+Connection conn = DriverManager.getConnection(url, user, password);
+out.print("연결 URL정의 및 DB와 연결이 정상적으로 연결 되었습니다.");
+
+Statement stmt =conn.createStatement();
+
+String sql="create table NovelJSP(name VARCHAR(10)NOT NULL PRIMARY KEY, age INTEGER)";
+
+stmt.executeUpdate(sql);
+
+out.print("NovelJSP테이블 생성 완료<br>");
+
+stmt=conn.createStatement();
+
+sql="Insert into NovelJSP value ('jabook',32)";
+
+stmt.executeUpdate(sql);
+out.print("데이터 삽입 완료<br>");
+
+stmt=conn.createStatement();
+
+sql="select * from NovelJSP";
+
+ResultSet rs=stmt.executeQuery(sql);
+
+out.print("데이터 쿼리 완료");
+
+while(rs.next()){
+	
+	out.print(rs.getString("name")+","+rs.getInt(2)+"<br>");
+	
+}
+
+rs.close();
+
+stmt=conn.createStatement();
+
+sql="delete from NovelJSP where name='jabook'";
+
+stmt.executeLargeUpdate(sql);
+
+//rs.close();
+stmt.close();
+conn.close();
+
+
+
+
+
 
 %>
 
