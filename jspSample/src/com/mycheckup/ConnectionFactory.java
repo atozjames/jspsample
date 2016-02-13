@@ -26,29 +26,57 @@ public class ConnectionFactory {
 		return connectionFactory;
 	}
 	
-	public Connection createConnection() {
+	public Connection createConnection(String dbType) {
 		Connection connection = null;
+		if (dbType.equals("mysql")){
 
-		try {
+			try {
 
-			Class.forName("com.mysql.jdbc.Driver");
+				Class.forName("com.mysql.jdbc.Driver");
 
-		} catch (ClassNotFoundException cnfe) {
+			} catch (ClassNotFoundException cnfe) {
 
-			System.out.println(cnfe);
+				System.out.println(cnfe);
 
-		}
+			}
 
-		String url = "jdbc:mysql://www.youscan.co.kr:3306/konavi";
-		String user = "konavi";
-		String password = "konavi";
+			String url = "jdbc:mysql://www.youscan.co.kr:3306/konavi";
+			String user = "konavi";
+			String password = "konavi";
 
-		try {
-			connection = DriverManager.getConnection(url, user, password);
+			try {
+				connection = DriverManager.getConnection(url, user, password);
 
-		} catch (SQLException sqle) {
+			} catch (SQLException sqle) {
 
-			System.out.println(sqle);
+				System.out.println(sqle);
+			}
+			
+		}else if(dbType.equals("oracle")){
+			
+			try {
+
+				Class.forName("oracle.jdbc.driver.OracleDriver");
+
+			} catch (ClassNotFoundException cnfe) {
+
+				System.out.println(cnfe);
+
+			}
+
+			String url = "jdbc:oracle:thin:@www.mycheckup.co.kr:1521:orcl";
+			String user="cybercvs";
+			String password="info9077";
+
+			try {
+				connection = DriverManager.getConnection(url, user, password);
+
+			} catch (SQLException sqle) {
+
+				System.out.println(sqle);
+			}
+		}else {
+			System.out.println("DB type을 입력하세요");
 		}
 
 		return connection;
