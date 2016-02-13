@@ -22,7 +22,7 @@ public class ConnectionPool {
 	private int wait_count = 0;
 	private static ConnectionPool connectionPool =new ConnectionPool();
 	
-
+    //static initalized
 	static{
 		
 		try{
@@ -40,14 +40,13 @@ public class ConnectionPool {
 		
 	}
 	
-	private ConnectionPool(){}
+	private ConnectionPool(){} //객체 생성을 못하게 하기 위함
 
     
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "static-access" })
 	public synchronized static void initConnectionPool()throws SQLException,ClassNotFoundException {
-		ConnectionPool.getConnectionPool();
-		// TODO Auto-generated method stub
-		ConnectionPool.destoryConnectionPool();
+		ConnectionPool.getConnectionPool().destoryConnectionPool();
+		
 		@SuppressWarnings("rawtypes")
 		Vector temp = ConnectionPool.getConnectionPool().getConnectionPoolBuffer();
 		ConnectionFactory connectionFactory = ConnectionFactory.getDefaultFactory();
@@ -65,7 +64,25 @@ public class ConnectionPool {
 
 	public synchronized static void destoryConnectionPool(){
 		
-		Vevtor
+		@SuppressWarnings("rawtypes")
+		Vector temp = ConnectionPool.getConnectionPool().getConnectionPoolBuffer();
+		int t = temp.size();
+		System.out.println("버퍼의 크기는"+t);
+		
+		for(int i=0;i<t;i++){
+			ConnectionInfo connectionInfo = (ConnectionInfo)temp.remove(0);
+			if(connectionInfo !=null){
+				try{
+					connectionInfo.connection.close();
+					System.out.println("Connection Closed"+connectionInfo.connection);
+					
+				}catch(SQLException e){
+					e.printStackTrace();
+				}
+			}
+			
+		}
+				
 	}
 	
 	public static ConnectionPool getConnectionPool() {
@@ -76,11 +93,58 @@ public class ConnectionPool {
 		
 		return connectionPool;
 	}
-	private Vector getConnectionPoolBuffer() {
+	public Vector getConnectionPoolBuffer() {
 		// TODO Auto-generated method stub
-		return null;
+		return this.buffer;
 	}
 
+	public synchronized Connection getConnection(){
+		ConnectionInfo connectionInfo=null;
+
+		if(wait_count> MAX_CONNECTION){
+			return null;
+		}
+
+		try{
+			while(buffer.size()==0){
+				wait_count++;
+				this.wait();
+				wait_count--;
+			}
+
+			connectionInfo=(ConnectionInfo)this.buffer.elementAt(0);
+			long interval =System.currentTimeMillis()- connectionInfo.time;
+			if(interval > 1000*60*30){
+				try{
+					System.out.println(interval/1000+"초를 경과 Connection Close");
+					connectionInfo.connection.close();
+				}catch(SQLException e1){
+					e1.printStackTrace();
+					System.out.println("Connection Closed error");
+				}
+				ConnectionFactory connectionFactory = ConnectionFactory.getDefaultFactory();
+				connectionInfo.connection=connectionFactory.createConnection("mysql");
+				System.out.println(new java.util.Date().toString()+"Connection Opened");
+			}
+		}catch(InterruptedException e2){
+			e2.printStackTrace();
+
+		}finally{
+			connectionInfo = (ConnectionInfo)this.buffer.remove(0);
+
+		}
+		return connectionInfo.connection;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public synchronized void releaseConnection(Connection Connection){
+		this.buffer.addElement(new ConnectionInfo(Connection,System.currentTimeMillis()));
+		this.notifyAll();
+	}
+	
+	
+	
+	
 	
 	
 }
