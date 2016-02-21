@@ -7,18 +7,19 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 
 @SuppressWarnings({ "rawtypes", "serial" })
-public class MultiPartRequest extends Hashtable {
+public class MultiPartRequest_err extends Hashtable {
 
 	private String encoding = "UTF-8";
 	private String uploadDir = "";
 	private byte[] buf = new byte[64 * 1024];
 	private HttpServletRequest request = null;
 
-	public MultiPartRequest(HttpServletRequest request, String encoding, String uploadDir) throws IOException {
+	public MultiPartRequest_err(HttpServletRequest request, String encoding, String uploadDir) throws IOException {
 
 		this.request = request;
 		this.encoding = encoding;
-
+        System.out.println(uploadDir); 
+		
 		if (!uploadDir.endsWith(File.separator)) {
 
 			this.uploadDir = uploadDir + File.separator;
@@ -188,6 +189,7 @@ public class MultiPartRequest extends Hashtable {
 		return count;
 	}
 
+	@SuppressWarnings("unchecked")
 	private void parseData() throws IOException {
 
 		int startPos = 0;
@@ -212,6 +214,7 @@ public class MultiPartRequest extends Hashtable {
 				temp = readLineString(in);
 			else
 				already_read_flag = false;
+			
 			if (boundary == null) {
 
 				boundary = temp;
@@ -288,7 +291,7 @@ public class MultiPartRequest extends Hashtable {
 
 	}
 
-	private int readFileData(ServletInputStream in, String filename, String boundary, StringBuffer delim)
+/*	private int readFileData(ServletInputStream in, String filename, String boundary, StringBuffer delim)
 			throws IOException {
 
 		int count = 0;
@@ -333,6 +336,6 @@ public class MultiPartRequest extends Hashtable {
 
 		return count;
 
-	}
+	}*/
 
 }
