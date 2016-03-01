@@ -35,7 +35,7 @@ public class AdminManager {
 	public AdminManager(){}
 	
 
-	private static AdminManager getInstance() {
+	public static AdminManager getInstance(){
 		// TODO Auto-generated method stub
 		
 		if(adminManager == null){
@@ -45,7 +45,14 @@ public class AdminManager {
 		return adminManager;
 	}
 	
-
+    //객체 테스트
+	public String objTest(){
+		
+		String str="객체가 성공적으로 생성되었습니다.";
+		
+		return str;
+	}
+	
 	//해당하는 이름의 게시판 이름이 존재하는지 검사하는 메소드
 	
 	public boolean existBoard(String boardName) {
@@ -70,9 +77,9 @@ public class AdminManager {
 	
 	 public void makeBoard(String boardName,String boardSubject){
 
-		 String insertBoardSql = "insert BoardAdmin values('"+boardName+","+boardSubject+"')";
+		 String insertBoardSql = "insert into BoardAdmin values('"+boardName+"','"+boardSubject+"')";
 		 
-		 String makeBoardSql="create table"+boardName+"(";
+		 String makeBoardSql="create table "+boardName+"(";
 		 makeBoardSql+="num int NOT NULL PRIMARY KEY,";
 		 makeBoardSql+="name varchar(20) NOT NULL,";
 		 makeBoardSql+="subject varchar(100),";
@@ -83,9 +90,10 @@ public class AdminManager {
 		 makeBoardSql+="ref int NOT NULL,";
 		 makeBoardSql+="step int NOT NULL,";
 		 makeBoardSql+="depth int NOT NULL,";
-		 makeBoardSql+="childCount int NOT NULL,";
+		 makeBoardSql+="childCount int NOT NULL";
 		 makeBoardSql+=")";
 		 
+		 logger.info(insertBoardSql);
 		 logger.info(makeBoardSql);
 
 		 this.adminExecuteUpdate(insertBoardSql);
@@ -96,7 +104,20 @@ public class AdminManager {
 	 
 	// 관리자로 로그인 했는지의 여부를 파악하는 위한 메소드
 
-	public boolean isAdmin(String id) {
+	public boolean chkAdmin(String id, String Password){
+		
+		logger.info("param:"+id+"/"+Password);
+		
+		if(this.id.equals(id)&& this.password.equals(Password)){
+			
+			return true;
+		}
+		
+		return false;
+	}
+	 
+	 
+	 public boolean isAdmin(String id) {
 
 		if (id.equals(id)) {
 			return true;
@@ -144,9 +165,11 @@ public class AdminManager {
 
 	 //게시판 제목을 수정하는 메서드
 	 
-	 public void updateBoard(String boardName,String boardSubjecr){
+	 public void updateBoard(String boardName,String boardSubject){
 		 
-		 String sql="update BoardAdmin set boardSubject="+boardSubjecr+"where boardName='"+boardName+"'";
+		 String sql="update BoardAdmin set boardSubject='"+boardSubject+"' where boardName='"+boardName+"'";
+		 logger.info(sql);
+		 
 		 this.adminExecuteUpdate(sql);
 		 
 	 }
@@ -155,9 +178,11 @@ public class AdminManager {
      
 	 public void deleteBoard(String boardName){
 		 
-		 String deleteRecordSQL="delete BoardAdmin where boardName='"+boardName+"'";
-		 String dropBoardSQL="drop table"+boardName;
+		 String deleteRecordSQL="delete from BoardAdmin where boardName='"+boardName+"'";
+		 String dropBoardSQL="drop table "+boardName;
 		 
+		 logger.info(deleteRecordSQL);
+		 logger.info(dropBoardSQL);
 		 
 		 this.adminExecuteUpdate(deleteRecordSQL);
 		 this.adminExecuteUpdate(dropBoardSQL);
@@ -298,5 +323,15 @@ public class AdminManager {
 
 	}
      
-	 
+//	 
+//	public static void main(String[] args){
+//		
+//	AdminManager adminManager=AdminManager.getInstance();
+//	
+//	String str=adminManager.objTest();
+//	System.out.print(str);
+//	
+//	
+//	}
+	
 }//end of class
