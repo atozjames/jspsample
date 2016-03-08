@@ -13,7 +13,7 @@ PreparedStatement  psmt = null;
 
 Context     init_ctx    = new InitialContext();
 Context     env_ctx     = (Context)init_ctx.lookup("java:/comp/env");
-DataSource  ds          = (DataSource)env_ctx.lookup("jdbc/CYBER");
+DataSource  ds          = (DataSource)env_ctx.lookup("jdbc/VIBA");
 Connection  conn        = ds.getConnection();
 
 try{

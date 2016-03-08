@@ -41,6 +41,34 @@ public class ProReader {
 		
 	}
 	
+	public Hashtable properRead(String fileName){
+		
+		
+		 
+			Vector vector = new Vector();
+		    Hashtable ht = new Hashtable();
+		    Properties prop = new Properties();
+		    
+		    try{
+		    	
+		    }catch(Exception e){
+		    	
+		    	e.printStackTrace();
+		    }
+		    
+		    
+		    
+		   return ht;
+		
+	
+	
+	
+	}
+	
+	
+	
+	
+	
 	public static void main(String[] agrs){
 		
 		ProReader read= new ProReader();
