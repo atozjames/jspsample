@@ -29,14 +29,7 @@ public final class LoggingFilter implements Filter   {
 		        
 		    chain.doFilter(request, response);
 
-//		    filterConfig.getServletContext().log(
-//		        "User access! " +      
-//		        " User IP: " + address +      
-//		        " Resource: " + file + 
-//		        " Milliseconds used: " + (System.currentTimeMillis() - start) 
-//		    );
-//		    
-		    logger2.info(
+	    logger2.info(
 		    		
 				"User access! " + " User IP: " + address + " Resource: " + file + " Milliseconds used: "
 						+ (System.currentTimeMillis() - start)
